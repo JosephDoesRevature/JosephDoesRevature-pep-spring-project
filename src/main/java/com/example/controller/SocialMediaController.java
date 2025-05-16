@@ -45,7 +45,7 @@ public class SocialMediaController {
         if(nac != null){
             return ResponseEntity.status(200).body(nac);
         }
-        return ResponseEntity.status(400).body(null);
+        return ResponseEntity.status(401).body(null);
     }
     //Usecase3 
     @PostMapping(value = "/messages")

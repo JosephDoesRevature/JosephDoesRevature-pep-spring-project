@@ -32,7 +32,12 @@ public class AccountService {
     }
 
     public Account login(Account account) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'login'");
+        Account desired = accountRepository.findByUsername(account.getUsername());
+        if(desired != null && desired.getPassword().equals(account.getPassword())){
+            return desired;
+        }
+        else{
+            return null;
+        }
     }
 }
