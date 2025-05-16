@@ -40,4 +40,8 @@ public class AccountService {
             return null;
         }
     }
+
+    public boolean isReal(Integer postedBy) {
+        return accountRepository.findById(postedBy).isPresent();
+    }
 }

@@ -50,7 +50,7 @@ public class SocialMediaController {
     //Usecase3 
     @PostMapping(value = "/messages")
     public ResponseEntity postMessage(@RequestBody Message message){
-        Message nm = MessageService.registerMessage(message);
+        Message nm = messageService.registerMessage(message);
         if(nm != null){
             return ResponseEntity.status(200).body(nm);
         }   
@@ -59,22 +59,22 @@ public class SocialMediaController {
     //Usecase4
     @GetMapping(value = "/messages")
     public ResponseEntity getMessages(){
-        return ResponseEntity.status(200).body(MessageService.getMessages());
+        return ResponseEntity.status(200).body(messageService.getMessages());
     }
     //Usecase5
     @GetMapping(value = "/messages/{messageId}")
     public ResponseEntity getMessage(@PathVariable int messageId){
-        return ResponseEntity.status(200).body(MessageService.getMessage(messageId));
+        return ResponseEntity.status(200).body(messageService.getMessage(messageId));
     }
     //Usecase6
     @DeleteMapping(value = "/messages/{messageId}")
     public ResponseEntity deleteMessage(@PathVariable int messageId){
-        return ResponseEntity.status(200).body(MessageService.deleteMessage(messageId));
+        return ResponseEntity.status(200).body(messageService.deleteMessage(messageId));
     }
     //Usecase7
     @PatchMapping(value = "/messages/{messageId}")
     public ResponseEntity patchMessage(@PathVariable int messageId){
-        int updated = MessageService.patchMessage(messageId); 
+        int updated = messageService.patchMessage(messageId); 
         if(updated>0){
             return ResponseEntity.status(200).body(updated);
         }

@@ -11,28 +11,30 @@ import com.example.repository.MessageRepository;
 public class MessageService {
     @Autowired
     MessageRepository messageRepository;
-    
-    public static Message registerMessage(Message message) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'registerMessage'");
+    @Autowired AccountService accountService;
+    public Message registerMessage(Message message) {
+        if(message != null && accountService.isReal(message.getPostedBy()) && (message.getMessageText().length() < 256) && (message.getMessageText().length()>0)){
+            return messageRepository.save(message);
+        } 
+        return null;
     }
 
-    public static ResponseEntity getMessages() {
+    public ResponseEntity getMessages() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getMessages'");
     }
 
-    public static Object getMessage(int messageID) {
+    public Object getMessage(int messageID) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getMessage'");
     }
 
-    public static Object deleteMessage(int messageID) {
+    public Object deleteMessage(int messageID) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'deleteMessage'");
     }
 
-    public static int patchMessage(int messageId) {
+    public int patchMessage(int messageId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'patchMessage'");
     }
