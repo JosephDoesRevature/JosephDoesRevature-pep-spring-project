@@ -1,24 +1,38 @@
 package com.example.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.entity.Account;
+import com.example.repository.AccountRepository;
 
 @Service
 public class AccountService {
-
-    public static boolean verifyAccount(Account account) {
-        // TODO Auto-generated method stub
+    @Autowired 
+    AccountRepository accountRepository;
+    public boolean verifyAccount(Account account) {
+        if(account == null){
+            return false;
+        }
+        if(account.getUsername().length() == 0){
+            return false;
+        }
+        if(account.getPassword().length() < 4){
+            return false;
+        }
         return true;
     }
 
-    public static boolean verifyName(Account account) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean verifyName(Account account) {
+        return (accountRepository.findByUsername(account.getUsername()) == null);
     }
 
-    public static Account registerAccount(Account account) {
+    public Account registerAccount(Account account) {
+        return accountRepository.save(account);
+    }
+
+    public Account login(Account account) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'registerAccount'");
+        throw new UnsupportedOperationException("Unimplemented method 'login'");
     }
 }
