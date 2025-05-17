@@ -26,16 +26,16 @@ public class SocialMediaController {
     @PostMapping(value = "/register")
     public ResponseEntity postRegister(@RequestBody Account account){
         if(!accountService.verifyAccount(account)){
-            return ResponseEntity.status(400).body(null);
+            return ResponseEntity.status(400).build();
         }
         if(!accountService.verifyName(account)){
-            return ResponseEntity.status(409).body(null);
+            return ResponseEntity.status(409).build();
         }
         Account nac = accountService.registerAccount(account);
         if(nac != null){
             return ResponseEntity.status(200).body(nac);
         } else {
-            return ResponseEntity.status(400).body(null);
+            return ResponseEntity.status(400).build();
         }
     }
     //Usecase2
@@ -45,7 +45,7 @@ public class SocialMediaController {
         if(nac != null){
             return ResponseEntity.status(200).body(nac);
         }
-        return ResponseEntity.status(401).body(null);
+        return ResponseEntity.status(401).build();
     }
     //Usecase3 
     @PostMapping(value = "/messages")
@@ -54,7 +54,7 @@ public class SocialMediaController {
         if(nm != null){
             return ResponseEntity.status(200).body(nm);
         }   
-        return ResponseEntity.status(400).body(null);
+        return ResponseEntity.status(400).build();
     }
     //Usecase4
     @GetMapping(value = "/messages")
@@ -64,21 +64,29 @@ public class SocialMediaController {
     //Usecase5
     @GetMapping(value = "/messages/{messageId}")
     public ResponseEntity getMessage(@PathVariable int messageId){
-        return ResponseEntity.status(200).body(messageService.getMessage(messageId));
+        Message message = messageService.getMessage(messageId);
+        if(message == null){
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.status(200).body(message);
     }
     //Usecase6
     @DeleteMapping(value = "/messages/{messageId}")
     public ResponseEntity deleteMessage(@PathVariable int messageId){
-        return ResponseEntity.status(200).body(messageService.deleteMessage(messageId));
+        int updated = messageService.deleteMessage(messageId);
+        if(updated >0){
+            return ResponseEntity.status(200).body(updated);
+        }
+        return ResponseEntity.status(200).build();
     }
     //Usecase7
     @PatchMapping(value = "/messages/{messageId}")
-    public ResponseEntity patchMessage(@PathVariable int messageId){
-        int updated = messageService.patchMessage(messageId); 
+    public ResponseEntity patchMessage(@PathVariable int messageId, @RequestBody Message message){
+        int updated = messageService.patchMessage(messageId, message.getMessageText()); 
         if(updated>0){
             return ResponseEntity.status(200).body(updated);
         }
-        return ResponseEntity.status(400).body(null);
+        return ResponseEntity.status(400).build();
     }
     //Usecase8
     @GetMapping(value ="/accounts/{accountId}/messages")
